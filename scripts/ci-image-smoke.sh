@@ -31,4 +31,5 @@ test -s /tmp/sakura-smoke.png
 docker rm -f "$container" >/dev/null
 start
 curl --fail --silent --show-error "http://127.0.0.1:3101/api/projects/$project_id" | jq -e '.name == "Native image persistence smoke" and .version == 1'
-test "$(docker exec "$container" node -p 'process.getuid()')" != 0
+# docker exec defaults to the image user, independently of the entrypoint's gosu.
+docker exec "$container" node -e 'const status = require("node:fs").readFileSync("/proc/1/status", "utf8"); const uid = status.match(/^Uid:\s+(\d+)/m)?.[1]; if (!uid || uid === "0") throw new Error("Application PID 1 must run as non-root"); console.log("Application UID:", uid);'
