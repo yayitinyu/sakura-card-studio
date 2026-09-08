@@ -47,7 +47,7 @@ docker compose up -d --build
 
 `./data` 挂载到 `/app/data`，镜像重建不应删除数据库。不要删除数据目录或密钥。容器入口仅为数据目录权限调整使用 root，应用通过 gosu 以 node 用户运行。
 
-本次环境没有 Docker，因此 Dockerfile/Compose 已编写并静态检查，尚未执行镜像构建、容器重启或重建持久化验收。
+本地 Windows 环境未安装 Docker；[GitHub Actions 原生双架构验证](https://github.com/yayitinyu/sakura-card-studio/actions/runs/34187264441) 已通过 AMD64/ARM64 镜像构建、16 项测试、应用启动、PNG 导出、保留数据卷重建容器和应用非 root 检查。`latest` manifest 已通过匿名访问确认同时包含 `linux/amd64` 与 `linux/arm64`。Compose 文件仍仅做静态检查。
 
 ## 环境变量与数据目录
 
@@ -111,7 +111,7 @@ npm start
 
 已执行：16 项单元/回归测试、26 项生产 API 集成断言、生产构建。浏览器检查覆盖 1440×900、1920×1080、390×844：创建/保存、服务重启后读取、Provider/模型、AI 预览与编辑后采纳、两阶段开场白、世界书、Monaco、手机导航和 PNG 文件选择器导入。无相关控制台错误或页面横向溢出。
 
-浏览器的下载事件等待超时，因此仅确认导出按钮触发且无页面错误；JSON/PNG 响应与重新导入的语义一致性由 API 集成测试验证，尚未确认浏览器下载文件的最终落盘位置。真实 Provider 输出质量、真实 SillyTavern 导入界面和 Docker 尚需目标环境验证。
+浏览器的下载事件等待超时，因此仅确认导出按钮触发且无页面错误；JSON/PNG 响应与重新导入的语义一致性由 API 集成测试验证，尚未确认浏览器下载文件的最终落盘位置。真实 Provider 输出质量和真实 SillyTavern 导入界面尚需目标环境验证。
 
 ## 备份与恢复
 
