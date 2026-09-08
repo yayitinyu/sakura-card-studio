@@ -1,0 +1,14 @@
+node_modules
+.next
+data
+.env
+.env.local
+.env.*
+!.env.example
+.github
+.git
+docs
+test-results
+public/monaco
+public/editor
+*.tsbuildinfo
